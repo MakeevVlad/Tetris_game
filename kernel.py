@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 root = Tk()
 root.geometry('800x600')
 field = [800, 600]
@@ -7,17 +8,18 @@ field = [800, 600]
 canv = Canvas(root, bg = 'white')
 canv.pack(fill=BOTH, expand=1)
 
-class Ball():
+class Ball:
     def __init__(self, state=[0, 0, 0, 0], color='red', r=10):
         self.pos = [state[0], state[1]]
         self.vel = [state[2], state[3]]
         self.color = color
         self.r = r
+        self.obj = canv.create_oval(0, 0, 0, 0)
         self.draw_ball()
 
     def draw_ball(self):
-        canv.delete(ALL)
-        canv.create_oval(
+        canv.delete(self.obj)
+        self.obj = canv.create_oval(
         self.pos[0] - self.r, self.pos[1] - self.r, 
         self.pos[0] + self.r, self.pos[1] + self.r, 
         fill = self.color)
@@ -54,7 +56,32 @@ def vel_step(vel, pos, dt=0.01):
 #================================================
 
 class Platform:
-    def __init__(self, pos=field[0]*0.5, size=20, color='black'):
+    def __init__(self, pos=field[0]*0.5, size=50, color='black', ):
         self.x = pos
         self.size = size
         self.color = color
+        self.draw_platform
+        self.obj = canv.create_rectangle(0, 0, 0, 0)
+        self.draw_platform()
+
+    def draw_platform(self):
+        canv.delete(self.obj)
+        self.obj = canv.create_rectangle(
+            self.x, field[1], self.x+self.size, field[1] - self.size/5,
+            fill = self.color)   
+    
+    def move_platform_right(self):
+        pass
+    def move_platform_left(self):
+        pass
+    
+
+#=========================
+def platform_movement_buttons(platform):
+    move_platform_right_button = Button(root, 
+    command = platform.move_platform_right, text = '-->')
+    move_platform_left_button  = Button(root, 
+    command = platform.move_platform_left,  text = '<--')
+    move_platform_right_button.place(x = field[0] - 40, y = field[1] - 40)
+    move_platform_left_button.place(x = 40, y = field[1] - 40)
+    
