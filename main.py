@@ -4,7 +4,7 @@ from kernel import *
 
 
 #initializing ball
-ball = Ball([200, 150, 20, 20], 'blue', 10)
+ball = Ball([10, 10, 20, 20], 'blue', 10)
 platform = Platform()
 platform_movement_buttons(platform)
 #Runs game

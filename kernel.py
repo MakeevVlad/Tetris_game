@@ -2,12 +2,13 @@ from tkinter import *
 import random as rnd
 
 root = Tk()
-root.geometry('800x600')
+root.geometry('400x550')
 canv = Canvas(root, bg = 'white')
 canv.pack(fill=BOTH, expand=1)
-field = [400, 300]
+field = [400, 500]
+fieldu = [400, 550]
 
-polygon = canv.create_polygon(0, 0, field[0], field[1])
+polygon = canv.create_rectangle(0, 0, field[0], field[1])
 
 
 
@@ -107,8 +108,8 @@ def platform_movement_buttons(platform):
     command = platform.move_platform_right, text = '-->')
     move_platform_left_button  = Button(root, 
     command = platform.move_platform_left,  text = '<--')
-    move_platform_right_button.place(x = field[0] - 40, y = field[1] - 40)
-    move_platform_left_button.place(x = 40, y = field[1] - 40)
+    move_platform_right_button.place(x = fieldu[0] - 40, y = fieldu[1] - 40)
+    move_platform_left_button.place(x = 0, y = fieldu[1] - 40)
 
 def pos_platform_step(pos, vel, dt = 1):
     pos += vel*dt
