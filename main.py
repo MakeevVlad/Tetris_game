@@ -6,7 +6,8 @@ from kernel import *
 #initializing ball
 ball = Ball([10, 10, 20, 20], 'blue', 10)
 platform = Platform()
-platform_movement_buttons(platform)
+interface_init(ball, platform)
+
 #Runs game
 def game():
     ball.move_ball(platform)

@@ -11,9 +11,11 @@ fieldu = [400, 550]
 polygon = canv.create_rectangle(0, 0, field[0], field[1])
 
 
-
 class Ball:
-    def __init__(self, state=[0, 0, 0, 0], color='red', r=10):
+    default_state = [20, 20, 20, 20]
+    default_r = 10
+    default_color = 'red'
+    def __init__(self, state=default_state, color=default_color, r=default_r):
         self.pos = [state[0], state[1]]
         self.vel = [state[2], state[3]]
         self.color = color
@@ -32,6 +34,10 @@ class Ball:
         self = hit(self, platform)
         self.pos = pos_step(self.pos, self.vel)
         self.vel = vel_step(self.vel, self.pos)
+    
+    def restart(self):
+        self.pos = [self.default_state[0], self.default_state[1]]
+        self.vel = [self.default_state[2], self.default_state[3]]
 
 #changes ball's velocity due to the different collisionss
 def hit(ball, platform):
@@ -42,9 +48,9 @@ def hit(ball, platform):
 
 #turnes ball's velocity if it hits the wall
 def wall_hit(ball):
-    if ball.pos[0] <= 0 or ball.pos[0] >= field[0]:
+    if ball.pos[0]-ball.r<= 0 or ball.pos[0]+ball.r >= field[0]:
         ball.vel[0]*=-1
-    if ball.pos[1] <= 0 or ball.pos[1] >= field[1]:
+    if ball.pos[1]-ball.r <= 0 or ball.pos[1]+ball.r >= field[1]:
         ball.vel[1]*=-1
     return ball
 
@@ -103,6 +109,13 @@ class Platform:
     
 
 #=========================
+def pos_platform_step(pos, vel, dt = 1):
+    pos += vel*dt
+    return pos
+
+#=========================
+
+
 def platform_movement_buttons(platform):
     move_platform_right_button = Button(root, 
     command = platform.move_platform_right, text = '-->')
@@ -111,6 +124,11 @@ def platform_movement_buttons(platform):
     move_platform_right_button.place(x = fieldu[0] - 40, y = fieldu[1] - 40)
     move_platform_left_button.place(x = 0, y = fieldu[1] - 40)
 
-def pos_platform_step(pos, vel, dt = 1):
-    pos += vel*dt
-    return pos
+def restart_buttons(ball, platform):
+    btsize = 60
+    restart_button = Button(root, command = ball.restart, text = 'ReStArT')
+    restart_button.place(x = fieldu[0]/2 - btsize/2, y = fieldu[1] - 40)
+
+def interface_init(ball, platform):
+    restart_buttons(ball, platform)
+    platform_movement_buttons(platform)
